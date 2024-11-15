@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bt2xd6ce1t0nd"]
+
+[ext_resource type="Texture2D" uid="uid://d4vd88pa131w" path="res://assets/Texture/TX Props - Copy.png" id="1_dwm7r"]
+[ext_resource type="Texture2D" uid="uid://dj6ih8udfv6wd" path="res://assets/Texture/TX Tileset Grass.png" id="2_57vmq"]
+[ext_resource type="PackedScene" uid="uid://b3t14loq5bly" path="res://player.tscn" id="3_hrq0r"]
+[ext_resource type="PackedScene" uid="uid://dpdkh3qel8ff6" path="res://enemy.tscn" id="4_a85t8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jo5q7"]
+size = Vector2(20, 45)
+
+[node name="World" type="Node2D"]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Tombstone" type="Sprite2D" parent="Environment"]
+position = Vector2(-73, 12)
+texture = ExtResource("1_dwm7r")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Environment/Tombstone"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Tombstone/StaticBody2D"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_jo5q7")
+
+[node name="Floor" type="Sprite2D" parent="Environment"]
+z_index = -2
+scale = Vector2(1.50391, 1.50391)
+texture = ExtResource("2_57vmq")
+
+[node name="Player" parent="." instance=ExtResource("3_hrq0r")]
+
+[node name="Enemy" parent="." instance=ExtResource("4_a85t8")]
+position = Vector2(110, -106)
