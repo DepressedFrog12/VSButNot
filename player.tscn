@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b3t14loq5bly"]
+[gd_scene load_steps=20 format=3 uid="uid://b3t14loq5bly"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_bdxlm"]
 [ext_resource type="Texture2D" uid="uid://by8hep787wsx" path="res://assets/Wizard/Wizard0.png" id="2_1bwj2"]
@@ -9,6 +9,13 @@
 [ext_resource type="Texture2D" uid="uid://cwmok3u3it64u" path="res://assets/Wizard/Wizard5.png" id="7_d5nmg"]
 [ext_resource type="Texture2D" uid="uid://ym7m728hbdnn" path="res://assets/Wizard/Wizard6.png" id="8_8qoib"]
 [ext_resource type="Texture2D" uid="uid://d0b7nlw7co4t" path="res://assets/Wizard/Wizard_death_0.png" id="9_wcxqi"]
+[ext_resource type="Texture2D" uid="uid://cdh883w5vy3ch" path="res://assets/Wizard/Wizard_death_1.png" id="10_vuym4"]
+[ext_resource type="Texture2D" uid="uid://b6ldmnh28mmsl" path="res://assets/Wizard/Wizard_death_2.png" id="11_x8wow"]
+[ext_resource type="Texture2D" uid="uid://lnov1uvyiaqe" path="res://assets/Wizard/Wizard_death_3.png" id="12_axt2p"]
+[ext_resource type="Texture2D" uid="uid://dygru8stbpnmf" path="res://assets/Wizard/Wizard_death_4.png" id="13_qvt8j"]
+[ext_resource type="Texture2D" uid="uid://mwepnvd115ln" path="res://assets/Wizard/Wizard_death_5.png" id="14_p4238"]
+[ext_resource type="Texture2D" uid="uid://533isvv4uurv" path="res://assets/Wizard/Wizard_death_6.png" id="15_rem0x"]
+[ext_resource type="Texture2D" uid="uid://bges072eujopb" path="res://assets/Wizard/Wizard_death_7.png" id="16_867gq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pmx88"]
 
@@ -41,6 +48,38 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_2ywea"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_wcxqi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_vuym4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_x8wow")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_axt2p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_qvt8j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_p4238")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_rem0x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_867gq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 collision_mask = 3
@@ -54,13 +93,22 @@ shape = SubResource("CircleShape2D_pmx88")
 [node name="Alive" type="AnimatedSprite2D" parent="Graphics"]
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_qnw67")
-frame_progress = 0.761001
+frame_progress = 0.333131
 speed_scale = 1.3
 
 [node name="Dead" type="Sprite2D" parent="Graphics"]
 visible = false
 z_index = -1
 texture = ExtResource("9_wcxqi")
+
+[node name="Dying" type="AnimatedSprite2D" parent="Graphics"]
+visible = false
+z_index = -1
+sprite_frames = SubResource("SpriteFrames_2ywea")
+frame_progress = 0.536811
+speed_scale = 1.3
+
+[node name="Timer" type="Timer" parent="Graphics/Dying"]
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(0, -1000)
@@ -128,4 +176,9 @@ text = "Restart"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+[node name="IframesTimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="timeout" from="Graphics/Dying/Timer" to="." method="hide"]
 [connection signal="button_up" from="CanvasLayer/DeathScreen/Panel/Label/Button" to="." method="restart"]
+[connection signal="timeout" from="IframesTimer" to="." method="_on_iframes_timer_timeout"]

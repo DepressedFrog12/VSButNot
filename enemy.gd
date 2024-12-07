@@ -18,12 +18,16 @@ func _physics_process(delta):
 	global_rotation = dir_to_player.angle() + PI/2.0
 	
 	if ray_cast_2d.is_colliding() and ray_cast_2d.get_collider() == player:
-		player.kill()
+		player._hit()
+
+func _hit():
+	kill()
 		
 func kill():
 	if dead:
 		return
 	dead = true
+	$Graphics/Dying.show()
 	$Graphics/Dead.show()
 	$Graphics/Alive.hide()
 	$CollisionShape2D.disabled = true
